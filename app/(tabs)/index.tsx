@@ -1,14 +1,41 @@
-import { StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TextInput, View, Button, Alert } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function LeaveRequestScreen() {
+  const [reason, setReason] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState(new Date());
 
-export default function TabOneScreen() {
+  const handleSubmit = () => {
+    Alert.alert('Success', 'Leave request submitted');
+    setReason('');
+    setDescription('');
+    setDate(new Date());
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <TextInput
+        style={styles.input}
+        placeholder="Reason for leave"
+        value={reason}
+        onChangeText={setReason}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Description/Note"
+        value={description}
+        onChangeText={setDescription}
+        multiline
+      />
+      <DateTimePicker
+        value={date}
+        mode="date"
+        display="default"
+        onChange={(event) => setDate(date)}
+      />
+      <Button title="Submit Leave Request" onPress={handleSubmit} />
     </View>
   );
 }
@@ -16,16 +43,13 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
 });
